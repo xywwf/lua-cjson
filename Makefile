@@ -45,10 +45,10 @@ LUA_BIN_DIR =       $(PREFIX)/bin
 #CJSON_CFLAGS =      -fpic -DUSE_INTERNAL_ISINF
 
 ## Windows (MinGW)
-#TARGET =            cjson.dll
+TARGET =            cjson.dll
 #PREFIX =            /home/user/opt
-#CJSON_CFLAGS =      -DDISABLE_INVALID_NUMBERS
-#CJSON_LDFLAGS =     -shared -L$(PREFIX)/lib -llua51
+CJSON_CFLAGS =      -DDISABLE_INVALID_NUMBERS
+CJSON_LDFLAGS =     -I"$(PREFIX)/src" -shared -L"$(PREFIX)/src" -llua -static-libgcc
 #LUA_BIN_SUFFIX =    .lua
 
 ##### Number conversion configuration #####
@@ -97,7 +97,7 @@ all: $(TARGET)
 doc: manual.html performance.html
 
 $(TARGET): $(OBJS)
-	$(CC) $(LDFLAGS) $(CJSON_LDFLAGS) -o $@ $(OBJS)
+	$(CC) $(OBJS) -o $@ $(LDFLAGS) $(CJSON_LDFLAGS)
 
 install: $(TARGET)
 	mkdir -p $(DESTDIR)/$(LUA_CMODULE_DIR)
